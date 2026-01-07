@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Study Assistant</title>
+</head>
+<body>
+
+  <h1>AI Study Assistant</h1>
+  <p>
+    A browser-based study assistant that converts raw study material into
+    structured notes using Generative AI concepts.
+  </p>
+
+  <p>Paste your study material below:</p>
+
+  <textarea
+    id="inputText"
+    rows="8"
+    cols="80"
+    placeholder="Enter your study content here..."
+  ></textarea>
+
+  <br><br>
+
+  <label for="mode">Select note style:</label>
+  <select id="mode">
+    <option value="SUMMARY">Short Summary</option>
+    <option value="BULLETS">Bullet Points</option>
+    <option value="EXAM">Exam-Ready Notes</option>
+  </select>
+
+  <br><br>
+
+  <button onclick="generateNotes()">Generate Notes</button>
+
+  <h3>Generated Notes:</h3>
+
+  <textarea
+    id="output"
+    rows="10"
+    cols="80"
+    readonly
+  >(Output will appear here)</textarea>
+
+  <script>
+    function generateNotes() {
+      const text = document.getElementById("inputText").value;
+      const mode = document.getElementById("mode").value;
+
+      if (text.trim() === "") {
+        alert("Please enter some study material");
+        return;
+      }
+
+      let result = "";
+
+      if (mode === "SUMMARY") {
+        result =
+          "Summary:\n" +
+          text.substring(0, 150) + "...";
+      }
+
+      else if (mode === "BULLETS") {
+        const sentences = text.split(".");
+        result = "Key Points:\n";
+
+        for (let s of sentences) {
+          if (s.trim() !== "") {
+            result += "- " + s.trim() + "\n";
+          }
+        }
+      }
+
+      else if (mode === "EXAM") {
+        const sentences = text.split(".");
+        result = "Exam-Ready Notes:\n";
+
+        let count = 1;
+        for (let s of sentences) {
+          if (s.trim() !== "") {
+            result += count + ". " + s.trim() + "\n";
+            count++;
+          }
+        }
+      }
+
+      document.getElementById("output").value =
+        "Mode selected: " + mode + "\n\n" + result;
+    }
+  </script>
+
+</body>
+</html>
